@@ -39,6 +39,7 @@ Projeyi zip olarak indirip yada klonlayıp kullanabilirsiniz.
 
 - Yoklama almak için tarih seçebilir yada yoklama tarihi ekleyebilirsiniz.
 - Tarih eklemek için tarih ekleme butonuna basın.
+
 ![resim](https://github.com/user-attachments/assets/6c030a8e-4f61-497f-a8f1-6f5f65e544eb)
 - Bugünün tarihini otomatik seçmek için takvim tuşuna basınız (Bilgisayarda kayıtlı olan tarih ve saate göre işler)
 - Kaydetmek için kayıt tuşuna basın.
