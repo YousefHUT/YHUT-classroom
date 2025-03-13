@@ -1,8 +1,8 @@
 _internal
 build/*
-__init__
+__main__
 dist/*
-__init__.spec
+__main__.spec
 Classes/*
 ogrenciler.txt
 __pycache__/*
