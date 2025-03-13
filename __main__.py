@@ -202,6 +202,8 @@ class ClassroomApp:
         self.list_unhere_counter = builder.get_object('listunherecounter')
         self.date_counter = builder.get_object('datecounter')
         self.attendance_counter = builder.get_object('classattendanceratecounter')
+        self.populate_listboxes()
+
 
         #Butonlara icon ekle
         self.add_icon = self.load_icon('add.png')
@@ -447,8 +449,13 @@ class ClassroomApp:
                     self.pointlist.insert(tk.END, '?')
 
             self.student_counter.config(text=f"Toplam Öğrenci Sayısı: {len(self.namelist_data)}")
-            self.list_counter.config(text=f"Listedeki Öğrenci Sayısı: {len(self.selected_students)}")
             self.date_counter.config(text=f"İşlenmiş Ders Sayısı: {len(self.select_date_list['values'])}")
+            if self.search_entry.get() != "" and self.search_entry.get() !="Hepsi":
+                self.list_counter.config(text=f"Listedeki Öğrenci Sayısı: {len(self.selected_students)}")
+            else:
+                self.list_counter.config(text="")
+                self.list_here_counter.config(text="")
+                self.list_unhere_counter.config(text="")
             check = 0
             uncheck = 0
             for date in self.select_date_list['values']:
@@ -477,16 +484,32 @@ class ClassroomApp:
                         uncheck += 1
                 self.student_here_counter.config(text=f"Toplam Gelen Sayısı: {check}")
                 self.student_unhere_counter.config(text=f"Toplam Gelmeyen Sayısı: {uncheck}")
-                check = 0
-                uncheck = 0
-                for student in self.selected_students:
-                    if self.checklist_data[student] == '+':
-                        check += 1
-                    elif self.checklist_data[student] == '-':
-                        uncheck += 1
-                self.list_here_counter.config(text=f"Listedeki Gelen Sayısı: {check}")
-                self.list_unhere_counter.config(text=f"Listedeki Gelmeyen Sayısı: {uncheck}")
-        
+                if self.search_entry.get() != "" and self.search_entry.get() !="Hepsi":
+                    check = 0
+                    uncheck = 0
+                    for student in self.selected_students:
+                        if self.checklist_data[student] == '+':
+                            check += 1
+                        elif self.checklist_data[student] == '-':
+                            uncheck += 1
+                    self.list_here_counter.config(text=f"Listedeki Gelen Sayısı: {check}")
+                    self.list_unhere_counter.config(text=f"Listedeki Gelmeyen Sayısı: {uncheck}")
+            else:
+                self.student_here_counter.config(text="")
+                self.student_unhere_counter.config(text="")
+                self.list_here_counter.config(text="")
+                self.list_unhere_counter.config(text="")
+                self.date_counter.config(text="")
+                self.attendance_counter.config(text="")
+        else:
+            self.student_counter.config(text="")
+            self.student_here_counter.config(text="")
+            self.student_unhere_counter.config(text="")
+            self.list_counter.config(text="")
+            self.list_here_counter.config(text="")
+            self.list_unhere_counter.config(text="")
+            self.date_counter.config(text="")
+            self.attendance_counter.config(text="")
 
     def filterlist(self):
         self.selected_students = []
@@ -495,6 +518,7 @@ class ClassroomApp:
             if search == "Hepsi" or search == "":
                 for student_number in self.namelist_data.keys():
                     self.selected_students.append(student_number)
+                self.search_entry.delete(0, tk.END)
             elif search == "Gelen":
                 if self.selecteddate != None:
                     for student_number, student_check in self.checklist_data.items():
@@ -523,7 +547,6 @@ class ClassroomApp:
                         self.selected_students.append(student_number)
             else:
                 self.search_student()
-        self.search_entry.delete(0, tk.END)
         self.populate_listboxes()
 
     def random_select(self,event=None):
