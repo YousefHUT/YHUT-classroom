@@ -394,6 +394,7 @@ class ClassroomApp:
                 json.dump(newchecklist, f)
             self.update_date_list()
             self.select_date_list.set(self.selecteddate)
+            self.none_here()
             self.load_data()
             self.filterlist()
             self.populate_listboxes()
@@ -474,7 +475,10 @@ class ClassroomApp:
                         check += 1
                     elif checklist[student] == '-':
                         uncheck += 1
-                percent = round((check / (check + uncheck) * 100))
+                if (check + uncheck != 0):
+                    percent = round((check / (check + uncheck) * 100))
+                else:
+                    percent = "0"
                 self.attendance_counter.config(text=f"Derslere Katılım Oranı: %{percent}")
             if self.selecteddate != None:
                 for student_id in self.selected_students:
@@ -682,79 +686,87 @@ class ClassroomApp:
                                              filetypes=[("Exel Tablosu","*.xlsx"),
                                                         ("Yazı dosyası", "*.txt"),
                                                         ("Tüm dosyalar", "*.*")])
-            directory = CLASSES_PATH / self.selectedclass
+            if output_path != ():
+                directory = CLASSES_PATH / self.selectedclass
 
-            with open(directory / 'namelist.json', 'r', encoding='utf-8') as f:
-                namelist = json.load(f)
+                with open(directory / 'namelist.json', 'r', encoding='utf-8') as f:
+                    namelist = json.load(f)
 
-            with open(directory / 'obligatelist.json', 'r', encoding='utf-8') as f:
-                obligatelist = json.load(f)
+                with open(directory / 'obligatelist.json', 'r', encoding='utf-8') as f:
+                    obligatelist = json.load(f)
 
-            with open(directory / 'pointlist.json', 'r', encoding='utf-8') as f:
-                pointlist = json.load(f)
+                with open(directory / 'pointlist.json', 'r', encoding='utf-8') as f:
+                    pointlist = json.load(f)
 
-            date_files = list((directory/"dates").glob('*.json'))
-            if output_path.endswith(".xlsx"):
-                data = []
-                for key in namelist:
-                    student_data = {
-                        "Numara": key,
-                        "Ad/Soyad": namelist[key],
-                        "Öğrenci durumu": obligatelist[key],
-                        "Puan": pointlist[key]
-                    }
-                    for date_file in date_files:
-                        with open(date_file, 'r', encoding='utf-8') as f:
-                            date_data = json.load(f)
-                            date_str = date_file.stem
-                            student_data[date_str] = date_data.get(key, "")
-                    data.append(student_data)
-                df = pandas.DataFrame(data)
-                df.to_excel(output_path, index=False)
-            else:
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    for student_id, student_name in namelist.items():
-                        f.write(f"{student_id},{student_name},{obligatelist[student_id]},{pointlist[student_id]}\n")
+                date_files = list((directory/"dates").glob('*.json'))
+                if output_path.endswith(".xlsx"):
+                    data = []
+                    for key in namelist:
+                        student_data = {
+                            "Numara": key,
+                            "Ad/Soyad": namelist[key],
+                            "Öğrenci durumu": obligatelist[key],
+                            "Puan": pointlist[key]
+                        }
+                        for date_file in date_files:
+                            with open(date_file, 'r', encoding='utf-8') as f:
+                                date_data = json.load(f)
+                                date_str = date_file.stem
+                                student_data[date_str] = date_data.get(key, "")
+                        data.append(student_data)
+                    df = pandas.DataFrame(data)
+                    df.to_excel(output_path, index=False)
+                else:
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        for student_id, student_name in namelist.items():
+                            f.write(f"{student_id},{student_name},{obligatelist[student_id]},{pointlist[student_id]}\n")
 
     def import_class(self,event=None):
         # Exel dosyasından yada text dosyasından sınıf import etme
-        file_path = filedialog.askopenfilename(filetypes=[("Exel Tabloları","*.xlsx")])
-        if file_path.endswith(".xlsx"):
-            table = pandas.read_excel(file_path)
+        file_path = filedialog.askopenfilename(defaultextension="*.*",
+                                             filetypes=[("Exel Tablosu","*.xlsx"),
+                                                        ("Yazı dosyası", "*.txt"),
+                                                        ("Tüm dosyalar", "*.*")])
+        if file_path != ():
+            namelist = {}
+            obligatelist = {}
+            pointlist = {}
             class_path = CLASSES_PATH / pathlib.Path(file_path).stem
             class_path.mkdir(parents=True, exist_ok=True)
             dates_path = class_path / "dates"
             dates_path.mkdir()
-            namelist = table.set_index('Numara')['Ad/Soyad'].to_dict()
-            obligatelist = table.set_index('Numara')['Öğrenci durumu'].to_dict()
-            pointlist = table.set_index('Numara')['Puan'].to_dict()
-            date_columns = [col for col in table.columns if col not in ['Numara', 'Ad/Soyad', 'Öğrenci durumu', 'Puan']]
-            date_data = {date: table.set_index('Numara')[date].to_dict() for date in date_columns}
-            for date, data in date_data.items():
-                with open(dates_path / f'{date}.json', 'w') as f:
-                    json.dump(data, f, ensure_ascii=False, indent=4)
-        else:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                for line in file:
-                    student_data = line.strip().split(',')
-                    if len(student_data) >= 3:
-                        student_id, student_name = student_data[:2]
-                        student_points = '0'
-                        student_status = student_data[2].split('/')[0]
-                        if len(student_data) == 4:
-                            student_points = student_data[3]
-                        namelist[student_id] = student_name
-                        obligatelist= student_status
-                        pointlist = student_points
-        with open(class_path / 'namelist.json', 'w') as f:
-            json.dump(namelist, f, ensure_ascii=False, indent=4)
+            if file_path.endswith(".xlsx"):
+                table = pandas.read_excel(file_path)
+                namelist = table.set_index('Numara')['Ad/Soyad'].to_dict()
+                obligatelist = table.set_index('Numara')['Öğrenci durumu'].to_dict()
+                pointlist = table.set_index('Numara')['Puan'].to_dict()
+                date_columns = [col for col in table.columns if col not in ['Numara', 'Ad/Soyad', 'Öğrenci durumu', 'Puan']]
+                date_data = {date: table.set_index('Numara')[date].to_dict() for date in date_columns}
+                for date, data in date_data.items():
+                    with open(dates_path / f'{date}.json', 'w') as f:
+                        json.dump(data, f, ensure_ascii=False, indent=4)
+            else:
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    for line in file:
+                        student_data = line.strip().split(',')
+                        if len(student_data) >= 3:
+                            student_id, student_name = student_data[:2]
+                            student_points = '0'
+                            student_status = student_data[2].split('/')[0]
+                            if len(student_data) == 4:
+                                student_points = student_data[3]
+                            namelist[student_id] = student_name
+                            obligatelist[student_id] = student_status
+                            pointlist[student_id] = student_points
+            with open(class_path / 'namelist.json', 'w') as f:
+                json.dump(namelist, f, ensure_ascii=False, indent=4)
 
-        with open(class_path / 'obligatelist.json', 'w') as f:
-            json.dump(obligatelist, f, ensure_ascii=False, indent=4)
+            with open(class_path / 'obligatelist.json', 'w') as f:
+                json.dump(obligatelist, f, ensure_ascii=False, indent=4)
 
-        with open(class_path / 'pointlist.json', 'w') as f:
-            json.dump(pointlist, f, ensure_ascii=False, indent=4)
-        self.update_class_list()
+            with open(class_path / 'pointlist.json', 'w') as f:
+                json.dump(pointlist, f, ensure_ascii=False, indent=4)
+            self.update_class_list()
 
     def open_add_student_dialog(self, event=None):
         # Öğrenci düzenleme penceresini aç
