@@ -27,6 +27,13 @@
               <property name="side">top</property>
             </layout>
             <child>
+              <object class="ttk.Menubutton" id="menubuton" named="True">
+                <layout manager="pack">
+                  <property name="side">left</property>
+                </layout>
+              </object>
+            </child>
+            <child>
               <object class="ttk.Combobox" id="searchentry" named="True">
                 <layout manager="pack">
                   <property name="expand">True</property>
@@ -47,15 +54,6 @@
             <child>
               <object class="ttk.Button" id="randomstudentbutton" named="True">
                 <property name="text" translatable="yes">Rastgele</property>
-                <layout manager="pack">
-                  <property name="side">left</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Button" id="addstudentbutton" named="True">
-                <property name="text" translatable="yes">+</property>
-                <property name="width">1</property>
                 <layout manager="pack">
                   <property name="side">left</property>
                 </layout>
@@ -285,6 +283,15 @@ Burda</property>
                     <child>
                       <object class="ttk.Button" id="unhere" named="True">
                         <property name="text" translatable="yes">Yok</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="addstudentbutton" named="True">
+                        <property name="text" translatable="yes">+</property>
+                        <property name="width">1</property>
                         <layout manager="pack">
                           <property name="side">left</property>
                         </layout>
@@ -824,14 +831,6 @@ istediğinize emin misiniz?</property>
     <child>
       <object class="ttk.Button" id="editstudentsavebutton" named="True">
         <property name="text" translatable="yes">Kaydet</property>
-        <layout manager="pack">
-          <property name="side">right</property>
-        </layout>
-      </object>
-    </child>
-    <child>
-      <object class="ttk.Button" id="importstudentsbutton" named="True">
-        <property name="text" translatable="yes">Gözat</property>
         <layout manager="pack">
           <property name="side">right</property>
         </layout>

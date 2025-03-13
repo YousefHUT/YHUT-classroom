@@ -4,6 +4,7 @@ import pygubu
 import pathlib
 import json
 import pyotp
+import qrcode
 import hashlib
 
 __version__ = '0.5.0'
@@ -13,6 +14,7 @@ PROJECT_PATH = pathlib.Path(__file__).resolve().parent
 LOGIN_UI = PROJECT_PATH / 'login.ui'
 USER_DATA_FILE = PROJECT_PATH / 'user.json'
 ICON_PATH = PROJECT_PATH / 'icons'
+QR_PATH = PROJECT_PATH / 'qr.png'
 
 class AuthApp:
     def __init__(self, master=None):
@@ -36,6 +38,9 @@ class AuthApp:
         #Doğrulama anahtarı verme ekranını tanımla
         self.auth_key_dialog = self.builder.get_object('authkeygivedialog', self.loginwindow)
         self.auth_key_label = self.builder.get_object('authkey')
+        self.auth_key_label.bind("<Button-1>", self.copy)
+        self.qrcode_label = self.builder.get_object('qrcodelabel')
+        self.auth_copy_label =self.builder.get_object('authcopylabel')
 
         #Parola unutma diyaloğunu tanımla
         self.forgot_password_dialog = self.builder.get_object('forgotpassworddialog', self.loginwindow)
@@ -53,7 +58,12 @@ class AuthApp:
 
         #Kullanıcı bilgilerini yükle
         self.load_user_data()
-        self.update_message()
+
+        #Mesajları Yükle
+        if self.signin:
+            self.message_label.config(text="Lütfen giriş yapın.")
+        else:
+            self.message_label.config(text="Lütfen kayıt olun.")
 
     def load_icon(self, icon_name):
         #İconları yükle
@@ -99,35 +109,36 @@ class AuthApp:
                 self.signed = True
                 self.loginwindow.destroy()
                 self.master.destroy()
+                if QR_PATH.exists():
+                    QR_PATH.unlink()
             else:
                 #Hatalı giriş
                 self.message_label.config(text="Geçersiz kullanıcı adı veya şifre.")
         else:
             #Kullanıcıyı kaydetme
+            authkey = pyotp.random_base32()
             self.user_data["username"] = self.md5_hash(username)
             self.user_data["password"] = self.md5_hash(password)
-            self.user_data["authkey"] = pyotp.random_base32()
+            self.user_data["authkey"] = authkey
+            self.auth_key_label.config(text=authkey)
+            uri = pyotp.totp.TOTP(authkey).provisioning_uri(name=username, issuer_name="YHUT Classtoom app",)
+            qrcode.make(uri).save("qr.png")
+            self.qr_image = tk.PhotoImage(file=str(QR_PATH))
+            self.qrcode_label.config(image=self.qr_image)
+            self.auth_copy_label.config(text="Kopyalamak için koda tıklayın!")
             self.auth_key_dialog.run()
+            if QR_PATH.exists():
+                QR_PATH.unlink()
             self.save_user_data()
-            self.auth_key_label.config(text=self.user_data["authkey"])
-            self.auth_key_label.bind("<Button-1>", self.copy)
             self.signin = True
             self.update_message()
 
     def copy(self, event=None):
         #Panoya kopyala
-        self.clipboard_clear()
-        self.clipboard_append(self.user_data["authkey"])
-        self.update()
-
-    def update_message(self):
-        #Giriş mesajını güncelle
-        if self.signin:
-            self.message_label.config(text="Lütfen giriş yapın.")
-            self.login_button.config(text="Giriş Yap")
-        else:
-            self.message_label.config(text="Lütfen kayıt olun.")
-            self.login_button.config(text="Kayıt Ol")
+        self.master.clipboard_clear()
+        self.master.clipboard_append(self.user_data["authkey"])
+        self.master.update()
+        self.auth_copy_label.config(text="Kopyalandı!")
 
     def on_forgot_key_button_click(self):
         #Şifremi unuttum menüsünü aç
@@ -136,7 +147,6 @@ class AuthApp:
 
     def on_send_auth_key_button_click(self):
         #Doğrulama anahtarını kontrol et
-        username = self.username_entry.get()
         authkey = self.auth_key_entry.get()
 
         if authkey == pyotp.TOTP(self.user_data["authkey"]).now():

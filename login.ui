@@ -88,9 +88,46 @@
       </object>
     </child>
     <child>
+      <object class="ttk.Label" id="qrcodelabel" named="True">
+        <property name="text" translatable="yes">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
       <object class="ttk.Label" id="authkey" named="True">
         <property name="font">{helvatica} 20 {}</property>
-        <property name="text" translatable="yes">                                                                         </property>
+        <property name="text" translatable="yes">                                                                           </property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="authcopylabel" named="True">
         <layout manager="pack">
           <property name="side">top</property>
         </layout>

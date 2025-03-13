@@ -5,6 +5,7 @@ import pygubu
 import time
 import json
 import random
+import pandas
 import auth
 from tkinter import filedialog
 
@@ -99,8 +100,6 @@ class ClassroomApp:
         self.edit_points_entry = builder.get_object('editpointentry')
         self.edit_status_entry = builder.get_object('editstatusentry')
         self.edit_status_entry['values'] = ["Zorunlu","Alttan","Alttan Devamlı"]
-        self.import_student_button = builder.get_object('importstudentsbutton')
-        self.import_student_button.config(command=self.import_student)
         self.edit_student_save_button = builder.get_object('editstudentsavebutton')
         self.edit_student_save_button.config(command=self.edit_student)
 
@@ -149,6 +148,8 @@ class ClassroomApp:
 
         # Arama menüsünü tanımla ve filtreleme seçeneklerini göster
         self.search_entry = builder.get_object('searchentry')
+        self.search_entry.bind("<<ComboboxSelected>>", self.filterlist)
+        self.search_entry.bind('<Return>', self.filterlist)
         self.search_button = builder.get_object('searchbutton')
         self.search_button.config(command=self.filterlist)
         self.search_entry['values'] = ["Hepsi"]
@@ -226,7 +227,9 @@ class ClassroomApp:
         self.quick_next_icon = self.load_icon('quicknext.png')
         self.quick_previous_icon = self.load_icon('quickback.png')
         self.random_icon = self.load_icon('random.png')
+        self.menu_icon = self.load_icon('menu.png')
         self.import_icon = self.load_icon('import.png')
+        self.export_icon = self.load_icon('export.png')
         self.student_info_icon = self.load_icon('studentinfo.png')
 
         if self.add_icon:
@@ -279,9 +282,15 @@ class ClassroomApp:
             self.quick_previous_button.config(image=self.quick_previous_icon)
         if self.random_icon:
             self.random_button.config(image=self.random_icon)
-        if self.import_icon:
-            self.import_student_button.config(image=self.import_icon)
 
+        #Menü butonunu tanımla
+        self.menu_button = builder.get_object('menubuton')
+        if self.menu_icon:
+            self.menu_button.config(image=self.menu_icon)
+        self.menu_button.menu = tk.Menu(self.menu_button, tearoff=0)
+        self.menu_button["menu"] = self.menu_button.menu
+        self.menu_button.menu.add_command(label="Sınıf içe aktar",command=self.import_class, image=self.import_icon)
+        self.menu_button.menu.add_command(label="Sınıf dışa aktar",command=self.export_class, image=self.export_icon)
 
     def load_icon(self, icon_name):
         icon_path = ICON_PATH / icon_name
@@ -324,7 +333,6 @@ class ClassroomApp:
             if self.selecteddate != None:
                 with open(CLASSES_PATH / self.selectedclass / 'dates' / f'{self.selecteddate}.json', 'w') as f:
                     json.dump(self.checklist_data, f)
-
 
     def on_scroll(self, *args):
         # Scrollbar'ı listbox'lara bağla
@@ -511,7 +519,7 @@ class ClassroomApp:
             self.date_counter.config(text="")
             self.attendance_counter.config(text="")
 
-    def filterlist(self):
+    def filterlist(self, event=None):
         self.selected_students = []
         search = self.search_entry.get()
         if self.selectedclass !=None:
@@ -582,7 +590,6 @@ class ClassroomApp:
                 values.append("Gelen")
                 values.append("Gelmeyen")
             self.search_entry['values'] = values
-
 
     def search_student(self):
         # Öğrenci ara
@@ -668,7 +675,87 @@ class ClassroomApp:
     def remove_class_cancel(self):
         # Sınıf silme işlemini iptal et
         self.remove_class_dialog.close()
-    
+
+    def export_class(self):
+        if self.selectedclass:
+            output_path = filedialog.asksaveasfilename(defaultextension=".xlsx",
+                                             filetypes=[("Exel Tablosu","*.xlsx"),
+                                                        ("Yazı dosyası", "*.txt"),
+                                                        ("Tüm dosyalar", "*.*")])
+            directory = CLASSES_PATH / self.selectedclass
+
+            with open(directory / 'namelist.json', 'r', encoding='utf-8') as f:
+                namelist = json.load(f)
+
+            with open(directory / 'obligatelist.json', 'r', encoding='utf-8') as f:
+                obligatelist = json.load(f)
+
+            with open(directory / 'pointlist.json', 'r', encoding='utf-8') as f:
+                pointlist = json.load(f)
+
+            date_files = list((directory/"dates").glob('*.json'))
+            if output_path.endswith(".xlsx"):
+                data = []
+                for key in namelist:
+                    student_data = {
+                        "Numara": key,
+                        "Ad/Soyad": namelist[key],
+                        "Öğrenci durumu": obligatelist[key],
+                        "Puan": pointlist[key]
+                    }
+                    for date_file in date_files:
+                        with open(date_file, 'r', encoding='utf-8') as f:
+                            date_data = json.load(f)
+                            date_str = date_file.stem
+                            student_data[date_str] = date_data.get(key, "")
+                    data.append(student_data)
+                df = pandas.DataFrame(data)
+                df.to_excel(output_path, index=False)
+            else:
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    for student_id, student_name in namelist.items():
+                        f.write(f"{student_id},{student_name},{obligatelist[student_id]},{pointlist[student_id]}\n")
+
+    def import_class(self,event=None):
+        # Exel dosyasından yada text dosyasından sınıf import etme
+        file_path = filedialog.askopenfilename(filetypes=[("Exel Tabloları","*.xlsx")])
+        if file_path.endswith(".xlsx"):
+            table = pandas.read_excel(file_path)
+            class_path = CLASSES_PATH / pathlib.Path(file_path).stem
+            class_path.mkdir(parents=True, exist_ok=True)
+            dates_path = class_path / "dates"
+            dates_path.mkdir()
+            namelist = table.set_index('Numara')['Ad/Soyad'].to_dict()
+            obligatelist = table.set_index('Numara')['Öğrenci durumu'].to_dict()
+            pointlist = table.set_index('Numara')['Puan'].to_dict()
+            date_columns = [col for col in table.columns if col not in ['Numara', 'Ad/Soyad', 'Öğrenci durumu', 'Puan']]
+            date_data = {date: table.set_index('Numara')[date].to_dict() for date in date_columns}
+            for date, data in date_data.items():
+                with open(dates_path / f'{date}.json', 'w') as f:
+                    json.dump(data, f, ensure_ascii=False, indent=4)
+        else:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    student_data = line.strip().split(',')
+                    if len(student_data) >= 3:
+                        student_id, student_name = student_data[:2]
+                        student_points = '0'
+                        student_status = student_data[2].split('/')[0]
+                        if len(student_data) == 4:
+                            student_points = student_data[3]
+                        namelist[student_id] = student_name
+                        obligatelist= student_status
+                        pointlist = student_points
+        with open(class_path / 'namelist.json', 'w') as f:
+            json.dump(namelist, f, ensure_ascii=False, indent=4)
+
+        with open(class_path / 'obligatelist.json', 'w') as f:
+            json.dump(obligatelist, f, ensure_ascii=False, indent=4)
+
+        with open(class_path / 'pointlist.json', 'w') as f:
+            json.dump(pointlist, f, ensure_ascii=False, indent=4)
+        self.update_class_list()
+
     def open_add_student_dialog(self, event=None):
         # Öğrenci düzenleme penceresini aç
         if self.selectedclass != None:
@@ -748,35 +835,6 @@ class ClassroomApp:
         # Öğrenci silme işlemini iptal et
         self.remove_student_dialog.close()
     
-    def import_student(self,event=None):
-        #Listeye öğrenci içeri aktarma
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-        if file_path:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                for line in file:
-                    student_data = line.strip().split(',')
-                    if len(student_data) >= 3:
-                        student_id, student_name = student_data[:2]
-                        student_points = '0'
-                        student_status = student_data[2].split('/')[0]
-                        if len(student_data) == 4:
-                            student_points = student_data[3]
-                        self.namelist_data[student_id] = student_name
-                        self.obligatelist_data[student_id] = student_status
-                        self.pointlist_data[student_id] = student_points
-                        self.checklist_data[student_id] = '-'
-                        for date in (CLASSES_PATH / self.selectedclass / 'dates').iterdir():
-                            with open(CLASSES_PATH / self.selectedclass / 'dates' / date, 'r') as f:            
-                                newchecklist = json.load(f)
-                            newchecklist[student_id] = '-'
-                            with open(CLASSES_PATH / self.selectedclass / 'dates' / date, 'w') as f:
-                                json.dump(newchecklist, f)
-            self.save_data()
-            self.load_data()
-            self.filterlist()
-            self.populate_listboxes()
-            self.edit_student_dialog.close()
-    
     def open_student_info_dialog(self, event=None):
         if self.selected_id:
             self.about_number.config(text=f"Öğrenci Numarası: {self.selected_id}")
@@ -809,7 +867,6 @@ class ClassroomApp:
             self.quick_number_label.config(text=f'Öğrenci No: {self.selected_id}')
             self.quick_name_label.config(text=f'Öğrenci Adı: {self.selected_name}')
             self.quick_check_dialog.run()
-
 
     def quick_next(self):
         # Sonraki öğrenciye geç
