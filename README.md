@@ -10,7 +10,7 @@ Pyhon-tkinter ile çalışan basit bir sınıf yoklama sistemi uygulaması.
 - Tkinter arayüzünü [Pygubu](https://github.com/alejandroautalan/pygubu) kütüphanesi ile tasarladığım app.ui adındaki xml dosyasında bulunuyor.
 - Dosya yolları [Pathlib](https://pypi.org/project/pathlib/) ile tanımlandığından python olan bütün işletim sistemlerinde hatasız çalışıyor.
 
-## Derekli kütüphaneler:
+## Gerekli kütüphaneler:
 ```
 pip install pygubu pathlib
 ```

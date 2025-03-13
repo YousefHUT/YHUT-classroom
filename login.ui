@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.4" author="PygubuDesigner 0.40.1">
+  <project>
+    <settings />
+    <customwidgets />
+  </project>
+  <object class="tk.Toplevel" id="loginwindow" named="True">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe1">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Kullanıcı Adı</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Entry" id="usernameloginentry" named="True">
+            <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">x</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe2">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Parola</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Entry" id="keyloginentry" named="True">
+            <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">x</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="messagelabel" named="True">
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="loginbutton" named="True">
+        <property name="text" translatable="yes">Giriş Yap</property>
+        <layout manager="pack">
+          <property name="side">left</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="forgotkeybutton" named="True">
+        <property name="text" translatable="yes">Şifremi unuttum</property>
+        <layout manager="pack">
+          <property name="side">right</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="pygubu.widgets.Dialog" id="authkeygivedialog" named="True">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Label" id="label2">
+        <property name="font">{helvatica} 16 {}</property>
+        <property name="text" translatable="yes">2 Aşamalı Doğrulama Anahtarınız:</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="authkey" named="True">
+        <property name="font">{helvatica} 20 {}</property>
+        <property name="text" translatable="yes">                                                                         </property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label3">
+        <property name="text" translatable="yes">Not: bu anahtarı kaybetmeyin veya başkasına vermeyin</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="pygubu.widgets.Dialog" id="forgotpassworddialog" named="True">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe3">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Anahtar</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Entry" id="authkeyentry" named="True">
+            <layout manager="pack">
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label4">
+        <property name="text" translatable="yes">Lütfen önceden verilen
+iki aşamalı doğrulama
+anahtarındaki
+doğrulama kodunu
+uygulamadan alıp girin</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="sendauthkeybutton" named="True">
+        <property name="text" translatable="yes">Gönder</property>
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

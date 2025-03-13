@@ -1,0 +1,9 @@
+_internal
+build/*
+__init__
+dist/*
+__init__.spec
+Classes/*
+ogrenciler.txt
+__pycache__/*
+user.json
