@@ -131,7 +131,7 @@ class AuthApp:
                 QR_PATH.unlink()
             self.save_user_data()
             self.signin = True
-            self.update_message()
+            self.message_label.config(text="Lütfen giriş yapın.")
 
     def copy(self, event=None):
         #Panoya kopyala
