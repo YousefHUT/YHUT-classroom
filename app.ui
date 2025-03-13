@@ -27,8 +27,14 @@
               <property name="side">top</property>
             </layout>
             <child>
-              <object class="ttk.Entry" id="searchentry" named="True">
-                <property name="width">20</property>
+              <object class="ttk.Menubutton" id="menubuton" named="True">
+                <layout manager="pack">
+                  <property name="side">left</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Combobox" id="searchentry" named="True">
                 <layout manager="pack">
                   <property name="expand">True</property>
                   <property name="fill">x</property>
@@ -46,9 +52,8 @@
               </object>
             </child>
             <child>
-              <object class="ttk.Button" id="addstudentbutton" named="True">
-                <property name="text" translatable="yes">+</property>
-                <property name="width">1</property>
+              <object class="ttk.Button" id="randomstudentbutton" named="True">
+                <property name="text" translatable="yes">Rastgele</property>
                 <layout manager="pack">
                   <property name="side">left</property>
                 </layout>
@@ -68,7 +73,17 @@
         </child>
         <child>
           <object class="tk.Listbox" id="namelist" named="True">
-            <property name="width">27</property>
+            <property name="width">25</property>
+            <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">y</property>
+              <property name="side">left</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Listbox" id="obligatelist" named="True">
+            <property name="width">10</property>
             <layout manager="pack">
               <property name="expand">True</property>
               <property name="fill">y</property>
@@ -111,128 +126,203 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Labelframe" id="labelframe3">
+      <object class="ttk.Frame" id="frame11">
         <property name="height">200</property>
-        <property name="text" translatable="yes">Seçenekler</property>
-        <property name="width">250</property>
+        <property name="width">200</property>
         <layout manager="pack">
           <property name="expand">True</property>
           <property name="fill">both</property>
-          <property name="side">top</property>
+          <property name="side">right</property>
         </layout>
         <child>
-          <object class="ttk.Frame" id="frame1">
+          <object class="ttk.Frame" id="frame20">
             <property name="height">200</property>
             <property name="width">200</property>
             <layout manager="pack">
+              <property name="expand">True</property>
               <property name="fill">x</property>
               <property name="side">top</property>
             </layout>
             <child>
-              <object class="ttk.Label" id="numberlabel" named="True">
-                <property name="anchor">w</property>
-                <property name="text" translatable="yes">Numara:</property>
-                <layout manager="pack">
-                  <property name="anchor">n</property>
-                  <property name="expand">True</property>
-                  <property name="fill">x</property>
-                  <property name="side">top</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Label" id="namelabel" named="True">
-                <property name="anchor">w</property>
-                <property name="text" translatable="yes">Ad Soyad: </property>
-                <layout manager="pack">
-                  <property name="anchor">n</property>
-                  <property name="expand">True</property>
-                  <property name="fill">x</property>
-                  <property name="side">top</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Frame" id="frame6">
+              <object class="ttk.Labelframe" id="labelframe10">
                 <property name="height">200</property>
+                <property name="text" translatable="yes">Yoklama</property>
                 <property name="width">200</property>
                 <layout manager="pack">
+                  <property name="anchor">center</property>
                   <property name="side">left</property>
                 </layout>
                 <child>
-                  <object class="ttk.Button" id="addpointsbutton" named="True">
-                    <property name="text" translatable="yes">+</property>
-                    <property name="width">1</property>
+                  <object class="ttk.Button" id="quickcheckbutton" named="True">
+                    <property name="text" translatable="yes">Hızlı Y.</property>
                     <layout manager="pack">
-                      <property name="fill">x</property>
-                      <property name="side">left</property>
+                      <property name="side">top</property>
                     </layout>
                   </object>
                 </child>
                 <child>
-                  <object class="ttk.Button" id="removepointsbutton" named="True">
-                    <property name="text" translatable="yes">-</property>
-                    <property name="width">1</property>
+                  <object class="ttk.Button" id="allherebutton" named="True">
+                    <property name="text" translatable="yes">Herkes
+Burda</property>
                     <layout manager="pack">
-                      <property name="fill">x</property>
-                      <property name="side">left</property>
+                      <property name="side">top</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="noneherebutton" named="True">
+                    <property name="text" translatable="yes">Kimse yok</property>
+                    <layout manager="pack">
+                      <property name="side">top</property>
                     </layout>
                   </object>
                 </child>
               </object>
             </child>
             <child>
-              <object class="ttk.Button" id="editstudentbutton" named="True">
-                <property name="text" translatable="yes">Düzenle</property>
+              <object class="ttk.Labelframe" id="labelframe3">
+                <property name="height">200</property>
+                <property name="text" translatable="yes">Öğrenci</property>
+                <property name="width">250</property>
                 <layout manager="pack">
-                  <property name="side">left</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Button" id="removestudentbutton" named="True">
-                <property name="text" translatable="yes">Öğrenciyi sil</property>
-                <layout manager="pack">
-                  <property name="side">left</property>
-                </layout>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Labelframe" id="labelframe7">
-            <property name="height">200</property>
-            <property name="text" translatable="yes">Tarih (Ders zamanı)</property>
-            <property name="width">200</property>
-            <layout manager="pack">
-              <property name="fill">x</property>
-              <property name="side">bottom</property>
-            </layout>
-            <child>
-              <object class="ttk.Combobox" id="selecteddate" named="True">
-                <layout manager="pack">
-                  <property name="expand">True</property>
+                  <property name="anchor">n</property>
                   <property name="fill">x</property>
-                  <property name="side">left</property>
+                  <property name="side">top</property>
                 </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Button" id="adddatebutton" named="True">
-                <property name="text" translatable="yes">+</property>
-                <property name="width">1</property>
-                <layout manager="pack">
-                  <property name="side">left</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Button" id="removedatebutton" named="True">
-                <property name="text" translatable="yes">x</property>
-                <property name="width">1</property>
-                <layout manager="pack">
-                  <property name="side">left</property>
-                </layout>
+                <child>
+                  <object class="ttk.Frame" id="frame1">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="fill">x</property>
+                      <property name="side">top</property>
+                    </layout>
+                    <child>
+                      <object class="ttk.Frame" id="frame7">
+                        <property name="height">200</property>
+                        <property name="width">200</property>
+                        <layout manager="pack">
+                          <property name="expand">True</property>
+                          <property name="fill">x</property>
+                          <property name="side">top</property>
+                        </layout>
+                        <child>
+                          <object class="ttk.Frame" id="frame8">
+                            <property name="height">200</property>
+                            <property name="width">200</property>
+                            <layout manager="pack">
+                              <property name="expand">True</property>
+                              <property name="fill">x</property>
+                              <property name="side">left</property>
+                            </layout>
+                            <child>
+                              <object class="ttk.Label" id="numberlabel" named="True">
+                                <property name="anchor">w</property>
+                                <property name="text" translatable="yes">Numara:</property>
+                                <layout manager="pack">
+                                  <property name="anchor">n</property>
+                                  <property name="expand">True</property>
+                                  <property name="fill">x</property>
+                                  <property name="side">top</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Label" id="namelabel" named="True">
+                                <property name="anchor">w</property>
+                                <property name="text" translatable="yes">Ad Soyad: </property>
+                                <layout manager="pack">
+                                  <property name="anchor">n</property>
+                                  <property name="expand">True</property>
+                                  <property name="fill">x</property>
+                                  <property name="side">top</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Frame" id="frame6">
+                            <property name="height">200</property>
+                            <property name="width">200</property>
+                            <layout manager="pack">
+                              <property name="side">right</property>
+                            </layout>
+                            <child>
+                              <object class="ttk.Button" id="addpointsbutton" named="True">
+                                <property name="text" translatable="yes">+</property>
+                                <property name="width">1</property>
+                                <layout manager="pack">
+                                  <property name="fill">x</property>
+                                  <property name="side">top</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Button" id="removepointsbutton" named="True">
+                                <property name="text" translatable="yes">-</property>
+                                <property name="width">1</property>
+                                <layout manager="pack">
+                                  <property name="fill">x</property>
+                                  <property name="side">top</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="here" named="True">
+                        <property name="text" translatable="yes">Burda</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="unhere" named="True">
+                        <property name="text" translatable="yes">Yok</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="addstudentbutton" named="True">
+                        <property name="text" translatable="yes">+</property>
+                        <property name="width">1</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="removestudentbutton" named="True">
+                        <property name="text" translatable="yes">sil</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="editstudentbutton" named="True">
+                        <property name="text" translatable="yes">Düzenle</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="aboutstudentbutton" named="True">
+                        <property name="text" translatable="yes">Hakkında</property>
+                        <layout manager="pack">
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
@@ -243,77 +333,246 @@
             <property name="text" translatable="yes">Sınıf</property>
             <property name="width">200</property>
             <layout manager="pack">
-              <property name="fill">x</property>
-              <property name="side">bottom</property>
+              <property name="anchor">s</property>
+              <property name="fill">both</property>
+              <property name="side">top</property>
             </layout>
             <child>
-              <object class="ttk.Combobox" id="classnamebox" named="True">
-                <property name="width">10</property>
+              <object class="ttk.Frame" id="frame13">
+                <property name="height">200</property>
+                <property name="width">200</property>
                 <layout manager="pack">
                   <property name="expand">True</property>
                   <property name="fill">x</property>
-                  <property name="side">left</property>
+                  <property name="side">top</property>
                 </layout>
+                <child>
+                  <object class="ttk.Combobox" id="classnamebox" named="True">
+                    <property name="width">10</property>
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="addclassbutton" named="True">
+                    <property name="text" translatable="yes">+</property>
+                    <property name="width">1</property>
+                    <layout manager="pack">
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="removeclassbutton" named="True">
+                    <property name="text" translatable="yes">x</property>
+                    <property name="width">1</property>
+                    <layout manager="pack">
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
-              <object class="ttk.Button" id="addclassbutton" named="True">
-                <property name="text" translatable="yes">+</property>
-                <property name="width">1</property>
+              <object class="ttk.Frame" id="frame12">
+                <property name="height">200</property>
+                <property name="width">200</property>
                 <layout manager="pack">
-                  <property name="side">left</property>
+                  <property name="expand">True</property>
+                  <property name="fill">x</property>
+                  <property name="side">bottom</property>
                 </layout>
+                <child>
+                  <object class="ttk.Frame" id="frame14">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                    <child>
+                      <object class="ttk.Label" id="studentcounter" named="True">
+                        <property name="text" translatable="yes">Toplam Öğrenci Sayısı:  </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Label" id="studentherecounter" named="True">
+                        <property name="text" translatable="yes">Toplam Gelen Sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Label" id="studentunherecounter" named="True">
+                        <property name="text" translatable="yes">Toplam Gelmeyen sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="frame15">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                    <child>
+                      <object class="ttk.Label" id="listcounter" named="True">
+                        <property name="text" translatable="yes">Listedeki öğrenci sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Label" id="listherecounter" named="True">
+                        <property name="text" translatable="yes">Listedeki Gelen Sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Label" id="listunherecounter" named="True">
+                        <property name="text" translatable="yes">Listedeki Gelmeyen Sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Labelframe" id="labelframe7">
+            <property name="height">200</property>
+            <property name="text" translatable="yes">Tarih (Ders zamanı)</property>
+            <property name="width">200</property>
+            <layout manager="pack">
+              <property name="anchor">s</property>
+              <property name="fill">x</property>
+              <property name="side">top</property>
+            </layout>
+            <child>
+              <object class="ttk.Frame" id="frame19">
+                <property name="height">200</property>
+                <property name="width">200</property>
+                <layout manager="pack">
+                  <property name="expand">True</property>
+                  <property name="fill">x</property>
+                  <property name="side">top</property>
+                </layout>
+                <child>
+                  <object class="ttk.Combobox" id="selecteddate" named="True">
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="adddatebutton" named="True">
+                    <property name="text" translatable="yes">+</property>
+                    <property name="width">1</property>
+                    <layout manager="pack">
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="removedatebutton" named="True">
+                    <property name="text" translatable="yes">x</property>
+                    <property name="width">1</property>
+                    <layout manager="pack">
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
-              <object class="ttk.Button" id="removeclassbutton" named="True">
-                <property name="text" translatable="yes">x</property>
-                <property name="width">1</property>
+              <object class="ttk.Frame" id="frame16">
+                <property name="height">200</property>
+                <property name="width">200</property>
                 <layout manager="pack">
-                  <property name="side">left</property>
+                  <property name="expand">True</property>
+                  <property name="fill">x</property>
+                  <property name="side">bottom</property>
                 </layout>
+                <child>
+                  <object class="ttk.Frame" id="frame17">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                    <child>
+                      <object class="ttk.Label" id="datecounter" named="True">
+                        <property name="text" translatable="yes">İşlenmiş Ders Sayısı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="frame18">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">True</property>
+                      <property name="fill">x</property>
+                      <property name="side">left</property>
+                    </layout>
+                    <child>
+                      <object class="ttk.Label" id="classattendanceratecounter" named="True">
+                        <property name="text" translatable="yes">Derslere Katılım Oranı:   </property>
+                        <layout manager="pack">
+                          <property name="anchor">w</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="ttk.Button" id="here" named="True">
-            <property name="text" translatable="yes">Burda</property>
+          <object class="ttk.Label" id="label8">
+            <property name="font">{helvatica} 8 {}</property>
+            <property name="text" translatable="yes">YousefHUT</property>
             <layout manager="pack">
-              <property name="side">left</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Button" id="unhere" named="True">
-            <property name="text" translatable="yes">Yok</property>
-            <layout manager="pack">
-              <property name="side">left</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Button" id="quickcheckbutton" named="True">
-            <property name="text" translatable="yes">Hızlı Yoklama</property>
-            <layout manager="pack">
-              <property name="side">left</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Button" id="allherebutton" named="True">
-            <property name="text" translatable="yes">Herkes
-Burda</property>
-            <layout manager="pack">
-              <property name="side">left</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="ttk.Button" id="noneherebutton" named="True">
-            <property name="text" translatable="yes">Kimse yok</property>
-            <layout manager="pack">
-              <property name="side">left</property>
+              <property name="anchor">se</property>
+              <property name="side">bottom</property>
             </layout>
           </object>
         </child>
@@ -496,11 +755,15 @@ istediğinize emin misiniz?</property>
         <property name="text" translatable="yes">Öğrenci Numarası</property>
         <property name="width">200</property>
         <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
           <property name="side">top</property>
         </layout>
         <child>
           <object class="tk.Entry" id="editnumberentry" named="True">
             <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">x</property>
               <property name="side">top</property>
             </layout>
           </object>
@@ -513,11 +776,36 @@ istediğinize emin misiniz?</property>
         <property name="text" translatable="yes">Öğrenci Adı Soyadı</property>
         <property name="width">200</property>
         <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
           <property name="side">top</property>
         </layout>
         <child>
           <object class="tk.Entry" id="editnameentry" named="True">
             <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">x</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe1">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Durumu</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">x</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Combobox" id="editstatusentry" named="True">
+            <layout manager="pack">
+              <property name="expand">True</property>
+              <property name="fill">x</property>
               <property name="side">top</property>
             </layout>
           </object>
@@ -637,6 +925,113 @@ istediğinize emin misiniz?</property>
               <property name="expand">True</property>
               <property name="fill">y</property>
               <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="pygubu.widgets.Dialog" id="aboutstudentdialog" named="True">
+    <property name="height">300</property>
+    <property name="title" translatable="yes">Öğrenci hakkında</property>
+    <property name="width">600</property>
+    <child>
+      <object class="tk.Frame" id="frame10">
+        <property name="height">200</property>
+        <property name="width">300</property>
+        <layout manager="pack">
+          <property name="expand">True</property>
+          <property name="fill">both</property>
+          <property name="side">left</property>
+        </layout>
+        <child>
+          <object class="tk.Label" id="aboutnumber" named="True">
+            <property name="text" translatable="yes">Öğrenci Numarası: </property>
+            <layout manager="pack">
+              <property name="anchor">nw</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Label" id="aboutname" named="True">
+            <property name="text" translatable="yes">Öğrenci Adı Soyadı: </property>
+            <layout manager="pack">
+              <property name="anchor">nw</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Label" id="aboutpoints" named="True">
+            <property name="text" translatable="yes">Öğrenci Puanı:</property>
+            <layout manager="pack">
+              <property name="anchor">nw</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="abouthere" named="True">
+            <property name="text" translatable="yes">Derse Katılım Sayısı: </property>
+            <layout manager="pack">
+              <property name="anchor">w</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="aboutunhere" named="True">
+            <property name="text" translatable="yes">Devamsızlık: </property>
+            <layout manager="pack">
+              <property name="anchor">w</property>
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="label11">
+            <property name="text" translatable="yes">                                                                           </property>
+            <layout manager="pack">
+              <property name="side">top</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="tk.LabelFrame" id="labelframe6">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Katıldığı tarihler</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="fill">y</property>
+          <property name="side">left</property>
+        </layout>
+        <child>
+          <object class="tk.Listbox" id="aboutherelist" named="True">
+            <layout manager="pack">
+              <property name="fill">y</property>
+              <property name="side">left</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="tk.LabelFrame" id="labelframe9">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Katılmadığı tarihler</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="fill">y</property>
+          <property name="side">left</property>
+        </layout>
+        <child>
+          <object class="tk.Listbox" id="aboutunherelist" named="True">
+            <layout manager="pack">
+              <property name="fill">y</property>
+              <property name="side">left</property>
             </layout>
           </object>
         </child>
