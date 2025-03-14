@@ -1,6 +1,7 @@
 Pyhon-tkinter ile çalışan basit bir sınıf yoklama sistemi uygulaması.
 
-![resim](https://github.com/user-attachments/assets/9d621582-4518-4f6d-94ef-928a5b408201)
+![resim](https://github.com/user-attachments/assets/9f17bf02-e265-4413-97b0-01ace53d6896)
+
 
 ## Uygulama ne yapıyor:
 - Sınıflar oluşturabilir
