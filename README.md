@@ -24,13 +24,6 @@ Pyhon ile çalışan basit ve kullanışlı bir sınıf yoklama sistemi uygulama
 - qrcode kütüphanesiyle 2 aşamalı doğrulama kodunun qr kodunu çıkartabiliyor.
 - hashlib ile kullanıcı adı ve parolayı tek yönlü şifreleyip kaydediyor.
 
-## Kurulum:
-- Projeyi zip olarak indirip yada klonlayıp kullanabilirsiniz.
-```
-git clone https://github.com/YousefHUT/YHUT-classroom.git
-pip install pygubu pathlib pandas pyotp qrcode hashlib
-```
-
 ## Kullanım:
 - Uygulama klasörünün içindeki [__main__.py](https://github.com/YousefHUT/YHUT-classroom/blob/master/__main__.py) dosyasını python ile açın
 ---
@@ -85,3 +78,4 @@ pip install pygubu pathlib pandas pyotp qrcode hashlib
 ![resim](https://github.com/user-attachments/assets/fbd54635-4bfb-483d-9af9-d57fe109e693)
 - Ekranda adı gözüken kişi yoklamada varsa yeşil butona, yoksa kırmızı butona basabilirsiniz.
 - Eğer hatalı işaretleme yaptıysanız geri/ileri gidebilirsiniz.
+

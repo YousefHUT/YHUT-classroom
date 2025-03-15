@@ -9,7 +9,7 @@ import pandas
 import auth
 from tkinter import filedialog
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __author__ = 'YousefHUT'
 
 
@@ -31,6 +31,10 @@ class ClassroomApp:
         self.mainscreen = builder.get_object('mainscreen', master)
         self.mainscreen.protocol("WM_DELETE_WINDOW", self.on_closing)
         builder.connect_callbacks(self)
+
+        #Sınıf klasörünü oluştur
+        if not CLASSES_PATH.exists():
+            CLASSES_PATH.mkdir(parents=True, exist_ok=True)
         
         # Listbox'ları al
         self.numberlist = builder.get_object('numberlist')
@@ -59,8 +63,6 @@ class ClassroomApp:
         self.select_date_list.bind("<<ComboboxSelected>>", self.select_date)
 
         #Dialog pencerelerini al
-        self.remove_date_dialog = builder.get_object('removedatedialog', self.mainscreen) #Tarih silme onay penceresi
-
         self.select_date_dialog = builder.get_object('selectdatedialog', self.mainscreen)#Tarih seçme penceresi
         self.year_spinbox = builder.get_object('yearspinbox')
         self.month_spinbox = builder.get_object('monthspinbox')
@@ -112,6 +114,18 @@ class ClassroomApp:
         self.about_absence = builder.get_object('aboutunhere')
         self.about_attendance_list = builder.get_object('aboutherelist')
         self.about_absence_list = builder.get_object('aboutunherelist')
+
+        self.all_here_dialog = builder.get_object('allheredialog',self.mainscreen)#Herkesi geldi işaretleme onay penceresi
+        self.all_here_confirm = builder.get_object('allhereconfirm')
+        self.all_here_unconfirm = builder.get_object('allhereunconfirm')
+        self.all_here_confirm.config(command=self.all_here)
+        self.all_here_unconfirm.config(command=self.all_here_cancel)
+
+        self.none_here_dialog = builder.get_object('noneheredialog',self.mainscreen)#Kimse gelmedi işaretleme onay penceresi
+        self.none_here_confirm = builder.get_object('nonehereconfirm')
+        self.none_here_unconfirm = builder.get_object('nonehereunconfirm')
+        self.none_here_confirm.config(command=self.none_here)
+        self.none_here_unconfirm.config(command=self.none_here_cancel)
 
         self.quick_check_dialog = builder.get_object('quickcheckdialog', self.mainscreen)#Hızlı yoklama penceresi
         self.quick_check_button = builder.get_object('quickcheckbutton')
@@ -186,9 +200,9 @@ class ClassroomApp:
         self.not_here_button = builder.get_object('unhere')
         self.not_here_button.config(command=self.not_here_selected)
         self.all_here_button = builder.get_object('allherebutton')
-        self.all_here_button.config(command=self.all_here)
+        self.all_here_button.config(command=self.open_all_here_dialog)
         self.none_here_button = builder.get_object('noneherebutton')
-        self.none_here_button.config(command=self.none_here)
+        self.none_here_button.config(command=self.open_none_here_dialog)
 
         #Rastgele öğrenci seçme butonunu tanımla
         self.random_button = builder.get_object('randomstudentbutton')
@@ -256,10 +270,14 @@ class ClassroomApp:
             self.remove_class_confirm.config(image=self.yes_image)
             self.remove_date_confirm.config(image=self.yes_image)
             self.remove_student_confirm.config(image=self.yes_image)
+            self.all_here_confirm.config(image=self.yes_image)
+            self.none_here_confirm.config(image=self.yes_image)
         if self.no_image:
             self.remove_class_unconfirm.config(image=self.no_image)
             self.remove_date_unconfirm.config(image=self.no_image)
             self.remove_student_unconfirm.config(image=self.no_image)
+            self.all_here_unconfirm.config(image=self.no_image)
+            self.none_here_unconfirm.config(image=self.no_image)
         if self.search_icon:
             self.search_button.config(image=self.search_icon)
         if self.quick_check_icon:
@@ -731,7 +749,13 @@ class ClassroomApp:
             namelist = {}
             obligatelist = {}
             pointlist = {}
-            class_path = CLASSES_PATH / pathlib.Path(file_path).stem
+            class_name = pathlib.Path(file_path).stem
+            class_path = CLASSES_PATH / class_name
+            index = 1
+            while class_path.exists():
+                class_name = pathlib.Path(file_path).stem +"_"+ str(index)
+                class_path = CLASSES_PATH / class_name
+                index += 1
             class_path.mkdir(parents=True, exist_ok=True)
             dates_path = class_path / "dates"
             dates_path.mkdir()
@@ -917,6 +941,10 @@ class ClassroomApp:
         self.populate_listboxes()
         self.quick_next()
 
+    def open_all_here_dialog(self):
+        if self.selectedclass != None and self.selecteddate != None:
+            self.all_here_dialog.run()
+
     def all_here(self):
         # Tüm öğrencileri yoklama alındı yap
         if self.selectedclass and self.selecteddate:
@@ -924,7 +952,15 @@ class ClassroomApp:
                 self.checklist_data[student_id] = '+'
             self.save_data()
             self.populate_listboxes()
+        self.all_here_dialog.close()
     
+    def all_here_cancel(self):
+        self.all_here_dialog.close()
+
+    def open_none_here_dialog(self):
+        if self.selectedclass != None and self.selecteddate != None:
+            self.none_here_dialog.run()
+
     def none_here(self):
         # Tüm öğrencileri yoklama alınmadı yap
         if self.selectedclass and self.selecteddate:
@@ -932,6 +968,11 @@ class ClassroomApp:
                 self.checklist_data[student_id] = '-'
             self.save_data()
             self.populate_listboxes()
+            self.none_here_dialog.close()
+
+    def none_here_cancel(self):
+        self.none_here_dialog.close()
+
 
     def here_selected(self):
         # Seçili öğrenciyi yoklama alındı yap
