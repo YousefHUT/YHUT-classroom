@@ -837,6 +837,70 @@ istediğinize emin misiniz?</property>
       </object>
     </child>
   </object>
+  <object class="pygubu.widgets.Dialog" id="allheredialog" named="True">
+    <property name="height">200</property>
+    <property name="title" translatable="yes">Uyarı</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Label" id="label7">
+        <property name="justify">center</property>
+        <property name="text" translatable="yes">Tüm listeyi geldi
+olarak işaretlemek
+istediinize emin misiniz?</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="allhereconfirm" named="True">
+        <property name="text" translatable="yes">Evet</property>
+        <layout manager="pack">
+          <property name="side">left</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="allhereunconfirm" named="True">
+        <property name="text" translatable="yes">Hayır</property>
+        <layout manager="pack">
+          <property name="side">right</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="pygubu.widgets.Dialog" id="noneheredialog" named="True">
+    <property name="height">200</property>
+    <property name="title" translatable="yes">Uyarı</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Label" id="label9">
+        <property name="justify">center</property>
+        <property name="text" translatable="yes">Tüm listeyi gelmedi
+olarak işaretlemek
+istediinize emin misiniz?</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="nonehereconfirm" named="True">
+        <property name="text" translatable="yes">Evet</property>
+        <layout manager="pack">
+          <property name="side">left</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="nonehereunconfirm" named="True">
+        <property name="text" translatable="yes">Hayır</property>
+        <layout manager="pack">
+          <property name="side">right</property>
+        </layout>
+      </object>
+    </child>
+  </object>
   <object class="pygubu.widgets.Dialog" id="quickcheckdialog" named="True">
     <property name="height">600</property>
     <property name="title" translatable="yes">Hızlı Yoklama</property>
